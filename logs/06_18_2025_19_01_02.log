@@ -1,0 +1,8 @@
+[ 2025-06-18 19:01:04,189 ] 26 root - INFO - Entered the data ingestion method or component
+[ 2025-06-18 19:01:06,235 ] 29 root - INFO - Read the dataset as dataframe
+[ 2025-06-18 19:01:10,417 ] 35 root - INFO - Train test split initiated
+[ 2025-06-18 19:01:15,426 ] 42 root - INFO - Ingestion of the data is completed
+[ 2025-06-18 19:01:17,486 ] 91 root - INFO - Read train and test data completed
+[ 2025-06-18 19:01:17,486 ] 92 root - INFO - Obtaining preprocessing object
+[ 2025-06-18 19:01:17,486 ] 34 root - INFO - Categorical columns: ['Property Type', 'Residential Type']
+[ 2025-06-18 19:01:17,486 ] 35 root - INFO - Numerical columns: ['List Year', 'Assessed Value', 'Sales Ratio']

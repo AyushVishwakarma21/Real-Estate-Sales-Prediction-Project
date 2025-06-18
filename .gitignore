@@ -1,0 +1,5 @@
+myenv/
+artifact/
+notebooks/data/
+*.pkl
+*.csv

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RealEstateAI | Property Value Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0c162d 0%, #1a2a4a 100%);
+            color: #f0f0f0;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(192, 162, 84, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 80% 80%, rgba(192, 162, 84, 0.1) 0%, transparent 20%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(192, 162, 84, 0.3);
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            color: #c0a254;
+            font-size: 28px;
+        }
+
+        .logo-text {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 800;
+            font-size: 28px;
+            background: linear-gradient(90deg, #c0a254, #e6d294);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: #a0aec0;
+            margin-top: -5px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Content */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 50px;
+            align-items: center;
+        }
+
+        .hero-text {
+            flex: 1;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero-text h1 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #f0f0f0, #e6d294);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #cbd5e0;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            color: #c0a254;
+        }
+
+        .feature i {
+            background: rgba(192, 162, 84, 0.1);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Form Section */
+        .form-container {
+            background: rgba(19, 30, 54, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(192, 162, 84, 0.2);
+            width: 100%;
+            max-width: 500px;
+            animation: slideIn 1s ease-out;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 26px;
+            font-weight: 600;
+            color: #f0f0f0;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .form-container h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #c0a254, #e6d294);
+            border-radius: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: #a0aec0;
+            font-weight: 500;
+        }
+
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 14px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(192, 162, 84, 0.3);
+            background: rgba(11, 20, 38, 0.5);
+            color: #f0f0f0;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus {
+            outline: none;
+            border-color: #c0a254;
+            box-shadow: 0 0 0 3px rgba(192, 162, 84, 0.2);
+        }
+
+        .form-group input:hover, 
+        .form-group select:hover {
+            border-color: rgba(192, 162, 84, 0.6);
+        }
+
+        .submit-btn {
+            margin-top: 15px;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #c0a254, #d4b96a);
+            color: #0c162d;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(192, 162, 84, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(192, 162, 84, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn::after {
+            content: "→";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover::after {
+            opacity: 1;
+            right: 15px;
+        }
+
+        /* Results Section */
+        .result-container {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            background: rgba(11, 20, 38, 0.7);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .result-container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .result-title {
+            font-size: 18px;
+            color: #a0aec0;
+            margin-bottom: 10px;
+        }
+
+        .result-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2ecc71;
+            font-family: 'Raleway', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .ai-badge {
+            display: inline-block;
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ecc71;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+            border-top: 1px solid rgba(192, 162, 84, 0.2);
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 15px;
+        }
+
+        .footer-links a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #c0a254;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+            }
+            
+            .hero-text {
+                text-align: center;
+                margin-bottom: 40px;
+            }
+            
+            .hero-text p {
+                max-width: 100%;
+            }
+            
+            .features {
+                justify-content: center;
+            }
+            
+            .form-container {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 25px;
+            }
+            
+            .hero-text h1 {
+                font-size: 32px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <div class="logo-text">RealEstateAI</div>
+                    <div class="tagline">AI-Powered Property Valuation</div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="hero">
+                <div class="hero-text">
+                    <h1>Predict Real Estate Values with Machine Learning</h1>
+                    <p>Our advanced AI algorithms analyze property data to predict sale amounts with unprecedented accuracy. Trained on thousands of real estate transactions to provide reliable valuation estimates.</p>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-brain"></i>
+                            <span>Machine Learning Models</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Market Trend Analysis</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-database"></i>
+                            <span>Historical Data Insights</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-bolt"></i>
+                            <span>Real-time Predictions</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-container">
+                    <h2>Predict Sale Amount</h2>
+                    <form id="predictionForm">
+                        <div class="form-group">
+                            <label for="List_Year"><i class="fas fa-calendar-alt"></i> List Year</label>
+                            <input type="number" id="List_Year" name="List_Year" required min="2001" max="2025" value="2023">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Assessed_Value"><i class="fas fa-dollar-sign"></i> Assessed Value</label>
+                            <input type="number" id="Assessed_Value" name="Assessed_Value" required step="0.01" min="0" placeholder="Enter value">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Sales_Ratio"><i class="fas fa-percentage"></i> Sales Ratio</label>
+                            <input type="number" id="Sales_Ratio" name="Sales_Ratio" required step="0.01" min="0" placeholder="0.00">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Property_Type"><i class="fas fa-home"></i> Property Type</label>
+                            <select id="Property_Type" name="Property_Type" required>
+                                <option value="">Select Property Type</option>
+                                <option value="Single Family">Single Family</option>
+                                <option value="Condominium">Condominium</option>
+                                <option value="Multi Family">Multi Family</option>
+                                <option value="Commercial">Commercial</option>
+                                <option value="Vacant Land">Vacant Land</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Residential_Type"><i class="fas fa-building"></i> Residential Type</label>
+                            <select id="Residential_Type" name="Residential_Type" required>
+                                <option value="">Select Residential Type</option>
+                                <option value="Residential">Residential</option>
+                                <option value="Apartment">Apartment</option>
+                                <option value="Townhouse">Townhouse</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Town"><i class="fas fa-map-marker-alt"></i> Town</label>
+                            <input type="text" id="Town" name="Town" required placeholder="e.g. Greenwich">
+                        </div>
+
+                        <button type="submit" class="submit-btn">Predict Sale Amount</button>
+                    </form>
+
+                    <div class="result-container" id="resultContainer">
+                        <div class="result-title">Predicted Sale Amount</div>
+                        <div class="result-value" id="predictionResult">$1,250,000</div>
+                        <div class="ai-badge">AI Prediction Confidence: 92%</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2023 RealEstateAI. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
+                <a href="#"><i class="fas fa-file-contract"></i> Terms of Service</a>
+                <a href="#"><i class="fas fa-envelope"></i> Contact Us</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Simulate form submission and prediction result
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.innerHTML = 'Predicting...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Generate a realistic prediction value
+                const assessedValue = parseFloat(document.getElementById('Assessed_Value').value) || 500000;
+                const prediction = assessedValue * (1 + (Math.random() * 0.5 + 0.5)); // 50-100% over assessed value
+                
+                // Format as currency
+                const formatter = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    maximumFractionDigits: 0
+                });
+                
+                // Display result
+                document.getElementById('predictionResult').textContent = formatter.format(prediction);
+                document.getElementById('resultContainer').classList.add('show');
+                
+                // Reset button
+                submitBtn.innerHTML = 'Predict Sale Amount';
+                submitBtn.disabled = false;
+            }, 1500);
+        });
+
+        // Set current year as default
+        document.getElementById('List_Year').value = new Date().getFullYear();
+    </script>
+</body>
+</html>
