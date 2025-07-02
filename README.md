@@ -1,13 +1,13 @@
-🏠 Real Estate Sales Prediction (2001–2022)
+🏠 Real Estate Sales Prediction (2001–2022)<br>
 
 A complete end-to-end machine learning pipeline for predicting real estate sale prices
 
-📌 Project Overview
+📌 Project Overview<br>
 This project aims to predict real estate sale prices using historical data spanning from 2001 to 2022. It follows a modular, production-ready architecture covering the entire machine learning workflow, from data preprocessing to model deployment.
 
 Whether you're exploring property market trends or building a real-world ML solution, this project demonstrates a clean, scalable pipeline designed for performance, reliability, and maintainability.
 
-🔧 Key Features
+🔧 Key Features<br>
 ✅ Data Ingestion: Automated pipeline to load and validate raw datasets.
 
 🧹 Data Cleaning: Handles missing values, inconsistent types, and outliers.
