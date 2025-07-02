@@ -18,7 +18,7 @@ Whether you're exploring property market trends or building a real-world ML solu
 
 🔄 Data Transformation: Scalable preprocessing using pipelines.
 
-🤖 Model Training & Tuning: Trains models like Random Forest, XGBoost, etc.
+🤖 Model Training & Tuning: Trains models like CatBoost, XGBoost, etc.
 
 📈 Model Evaluation: Performance measured via RMSE, MAE, R², etc.
 
